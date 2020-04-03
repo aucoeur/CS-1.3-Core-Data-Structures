@@ -19,22 +19,40 @@ def decode(digits, base):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
 
-    # reverse by slicing to use index as power
-    digits = digits[::-1]
-    result = 0
+    # Wow, so unnecessary. rip
+    spot = []
+    result = []
+    
+    for each in str(digits):
+        if base == 16 and each in string.hexdigits: 
+            if each not in string.digits:
+                hex_str = { "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15 }
+                each = hex_str[each.upper()]
+            spot.insert(0, each)
+            continue
+        elif base == 2 and each in ("0", "1", " "):
+            if each in ("0", "1"):
+                spot.insert(0, each)
+        elif base == 26:
+            base_26 = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25}            
+            each = base_26[each.upper()]
+            spot.insert(0, each)
+        else:
+             # TODO: Replace this temporary code for the other bases.. currently only accepts digits
+            if each not in string.digits:
+                return f"This is not valid digit in base {base}"
+            spot.insert(0, each)
 
-    # Basically '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    base_36 = string.digits + string.ascii_uppercase
-
-    for index, digit in enumerate(digits):
-        if digit in string.ascii_letters:
-            digit = base_36.index(digit.upper())
-
-        # Python uses ** for exponents
+    for index, digit in enumerate(spot):
         converted = int(digit) * (base**(index))
-        result += converted
 
-    return result
+        result.append(converted)
+
+    return sum(result)
+
+    # WAIT. BUT REALLY THO.
+    # return int(digits, base)
+
 
 def encode(number, base):
     """Encode given number in base 10 to digits in given base.
@@ -91,6 +109,12 @@ def main():
 if __name__ == '__main__':
     # main()
 
-    print(decode("10110011", 2))
+    # print(decode("10110011", 2))
     print(decode("e7a9", 16))
-    print(decode("420224", 12))
+    # print(decode("420224", 12))
+
+    # base_20 = {}
+
+    # for i, char in enumerate("0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ"):
+    #     base_20[char] = i
+    # print(base_20)
