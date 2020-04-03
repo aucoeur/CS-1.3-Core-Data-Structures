@@ -59,16 +59,52 @@ def encode(number, base):
     number: int -- integer representation of number (in base 10)
     base: int -- base to convert to
     return: str -- string representation of number (in given base)"""
+
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+
+    # Basically '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    base_36 = string.digits + string.ascii_uppercase
+
+    converted = []
+
+    # Encode number in binary (base 2)
+    if base == 2:
+        while number > 0:
+            remainder = number % 2
+            quotient = number / 2
+            split_quotient = str(quotient).split(".")
+            number = int(split_quotient[0])
+            converted.append(str(remainder))
+        return "".join(converted)
+
+    # Encode number in hexadecimal (base 16)
+    elif base == 16:
+        while number > 0:
+            quotient = number / 16
+            remainder = number % 16
+            split_quotient = str(quotient).split(".")
+            number = int(split_quotient[0])
+            if 9 < remainder < 16:
+                remainder = base_36[remainder]
+            converted.insert(0, str(remainder))
+            # print(f"{number} r: {remainder}")
+        return "".join(converted)
+
+    # Encode number in any base (2 up to 36)
+    else:
+        while number > 0:
+            quotient = number / base
+            remainder = number % base
+            split_quotient = str(quotient).split(".")
+            number = int(split_quotient[0])
+            if 9 < remainder < base:
+                remainder = base_36[remainder]
+            converted.insert(0, str(remainder))
+            # print(f"{number} r: {remainder}")
+        return "".join(converted)
 
 
 def convert(digits, base1, base2):

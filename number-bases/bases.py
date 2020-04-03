@@ -41,16 +41,34 @@ def encode(number, base):
     number: int -- integer representation of number (in base 10)
     base: int -- base to convert to
     return: str -- string representation of number (in given base)"""
+
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+
+    # Basically '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    base_36 = string.digits + string.ascii_uppercase
+
+    converted = []
+
+    # Encode number in any base (2 up to 36)
+    while number > 0:
+        quotient = number / base
+        remainder = number % base
+
+        # Convert to str to grab just the integer, and then back to int
+        split_quotient = str(quotient).split(".")
+        number = int(split_quotient[0])
+
+        # Convert to alphanumeric value
+        if 9 < remainder < base:
+            remainder = base_36[remainder].lower()
+
+        # Add to front
+        converted.insert(0, str(remainder))
+
+    return "".join(converted)
 
 
 def convert(digits, base1, base2):
@@ -68,8 +86,9 @@ def convert(digits, base1, base2):
     # ...
     # TODO: Convert digits from base 10 to base 16 (and vice versa)
     # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    # Convert digits from any base to any base (2 up to 36)
+    decoded = decode(digits, base1)
+    return encode(decoded, base2)
 
 
 def main():
@@ -89,8 +108,13 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
+    main()
 
-    print(decode("10110011", 2))
-    print(decode("e7a9", 16))
-    print(decode("420224", 12))
+    # print(decode("10110011", 2))
+    # print(decode("e7a9", 16))
+    # print(decode("420224", 12))
+
+    # print(encode(21, 2))
+    # print(encode(59305, 16))
+    # print(encode(1037116, 12))
+    # print(encode(23467, 12))
