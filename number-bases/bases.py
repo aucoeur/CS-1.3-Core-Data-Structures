@@ -15,14 +15,44 @@ def decode(digits, base):
     digits: str -- string representation of number (in given base)
     base: int -- base of given number
     return: int -- integer representation of number (in base 10)"""
+
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+
+    spot = []
+    result = []
+
+    for each in str(digits):
+        if base == 16 and each in string.hexdigits: 
+            if each not in string.digits:
+                hex_str = { "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15 }
+                each = hex_str[each]
+            spot.insert(0, each)
+            continue
+        elif base == 2 and each in ("0", "1", " "):
+            if each in ("0", "1"):
+                spot.insert(0, each)
+        else:
+             # TODO: Replace this temporary code for the other bases.. currently only accepts digits
+            if each not in string.digits:
+                return f"This is not valid digit in base {base}"
+            spot.insert(0, each)
+
+    for index, digit in enumerate(spot):
+        # Decode digits from binary (base 2)
+        if base == 2:
+            converted = int(digit) * (2**(index))
+            # print(f"index: {index} | {int(digit)} * {2**(index)} = {converted}")
+        # Decode digits from hexadecimal (base 16)
+        elif base == 16:
+            converted = int(digit) * (16**(index))
+        # Decode digits from any base (2 up to 36)
+        else:
+            converted = int(digit) * (base**(index))
+
+        result.append(converted)
+
+    return sum(result)
 
 
 def encode(number, base):
@@ -78,4 +108,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    print(decode("1011 0011", 2))
+    print(decode("E7A9", 16))
+    print(decode("420224", 12))
