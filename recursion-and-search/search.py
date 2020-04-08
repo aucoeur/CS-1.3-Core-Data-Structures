@@ -29,19 +29,51 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item, 0, len(array)-1)
 
 
 def binary_search_iterative(array, item):
-    # TODO: implement binary search iteratively here
-    pass
-    # once implemented, change binary_search to call binary_search_iterative
-    # to verify that your iterative implementation passes all tests
+    
+    # Binary Search only works for sorted array
+    array.sort()
+
+    start = 0
+    end = len(array) - 1
+
+    # Only running until both pointers reach each other (no overlapping)
+    while start <= end:
+        midpoint = (start + end) // 2
+
+        if array[midpoint] == item:
+            return midpoint
+        elif array[midpoint] < item:
+            # Set start at midpoint for next pass
+            start = midpoint + 1
+        elif array[midpoint] > item:
+            # Set midpoint to be new end limit
+            end = midpoint - 1
+
+    return None
 
 
 def binary_search_recursive(array, item, left=None, right=None):
-    # TODO: implement binary search recursively here
-    pass
-    # once implemented, change binary_search to call binary_search_recursive
-    # to verify that your recursive implementation passes all tests
+    
+    # Binary Search only works for sorted array
+    array.sort()
+
+    midpoint = (left + right) // 2
+
+    # Base Case
+    if array[midpoint] == item:
+        return midpoint
+    elif left > right:
+        return None
+
+    # Recursive
+    if array[midpoint] < item:
+        left = midpoint + 1
+        return binary_search_recursive(array, item, left, right)
+    if array[midpoint] > item:
+        right = midpoint - 1
+        return binary_search_recursive(array, item, left, right)
