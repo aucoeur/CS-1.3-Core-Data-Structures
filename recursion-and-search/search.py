@@ -32,9 +32,7 @@ def binary_search(array, item):
     # return binary_search_iterative(array, item)
     return binary_search_recursive(array, item, 0, len(array)-1)
 
-
-def binary_search_iterative(array, item):
-    
+def binary_search_iterative(array, item):    
     # Binary Search only works for sorted array
     array.sort()
 

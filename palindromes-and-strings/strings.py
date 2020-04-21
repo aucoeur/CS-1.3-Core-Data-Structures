@@ -4,24 +4,67 @@ def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement contains here (iteratively and/or recursively)
 
+    p_point = 0
+    t_point = 0
+    match = ""
+
+    while t_point < len(text):
+        if pattern[p_point] == text[t_point]:
+            match += text[t_point]
+
+            if match == pattern:
+                return True
+            p_point += 1
+        else:
+            match = ""
+        t_point += 1
+
+    return False
 
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
     or None if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement find_index here (iteratively and/or recursively)
 
+    index = 0
+
+    if pattern == "":
+        return index
+
+    while index < len(text):
+        if text[index] == pattern[0]:
+            p_index = index
+            for letter in pattern:
+                if p_index > (len(text) - 1) or text[p_index] != letter:
+                    break
+                p_index += 1
+            else:
+                return index
+
+        index += 1
+    return None
 
 def find_all_indexes(text, pattern):
     """Return a list of starting indexes of all occurrences of pattern in text,
     or an empty list if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement find_all_indexes here (iteratively and/or recursively)
 
+    match = []
+    i = 0
+
+    while i < len(text):
+        index = find_index(text, pattern)
+        if index is not None:
+            print(index)
+            match.append(index)
+            text = text[i:]
+        index = None
+        i += 1
+            
+    return match
 
 def test_string_algorithms(text, pattern):
     found = contains(text, pattern)
