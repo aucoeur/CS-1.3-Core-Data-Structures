@@ -52,19 +52,19 @@ def find_all_indexes(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
-    match = []
-    i = 0
+    # mamamima , ma
+    # 0 2   6
 
-    while i < len(text):
-        index = find_index(text, pattern)
+    match = []
+    text_pointer = 0
+    while text_pointer != len(text):
+        index = find_index(text[text_pointer:], pattern)
         if index is not None:
-            print(index)
-            match.append(index)
-            text = text[i:]
-        index = None
-        i += 1
-            
+            text_pointer += index
+            match.append(text_pointer)
+        text_pointer += 1
     return match
+
 
 def test_string_algorithms(text, pattern):
     found = contains(text, pattern)
