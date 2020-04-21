@@ -18,10 +18,19 @@ def is_palindrome(text):
 
 
 def is_palindrome_iterative(text):
+    # Base cases
+    if text == "":
+        return True
+    
+    text = text.lower()
     left = 0
     right = len(text) - 1
 
     while left <= right:
+        while not text[left].isalnum():
+            left += 1
+        while not text[right].isalnum():
+            right -= 1
         if text[left] != text[right]:
             return False
         left += 1
@@ -31,7 +40,18 @@ def is_palindrome_iterative(text):
 
 def is_palindrome_recursive(text, left=None, right=None):
     # Base cases
-    if text[left] != text[right]:
+    if text == "":
+        return True
+    if left is None:
+        left = 0
+        right = len(text) - 1
+
+    while not text[left].isalnum():
+        left += 1
+    while not text[right].isalnum():
+        right -= 1
+
+    if text[left].lower() != text[right].lower():
         return False
     if left >= right:
         return True
