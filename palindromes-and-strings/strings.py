@@ -5,21 +5,8 @@ def contains(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
 
-    p_point = 0
-    t_point = 0
-    match = ""
-
-    while t_point < len(text):
-        if pattern[p_point] == text[t_point]:
-            match += text[t_point]
-
-            if match == pattern:
-                return True
-            p_point += 1
-        else:
-            match = ""
-        t_point += 1
-
+    if find_index(text, pattern) is not None:
+        return True
     return False
 
 def find_index(text, pattern):
@@ -42,7 +29,6 @@ def find_index(text, pattern):
                 p_index += 1
             else:
                 return index
-
         index += 1
     return None
 
