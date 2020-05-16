@@ -19,10 +19,28 @@ class BinaryTreeNode(object):
             return False
         return True
         
-
     def is_branch(self):
         """Return True if this node is a branch (has at least one child)."""
         if self.right or self.left:
+            return True
+        return False
+    
+    def hasLeftChild(self):
+        """ Checks if node has left child
+        """
+        if self.left and not self.right:
+            return True
+        return False
+    
+    def hasRightChild(self):
+        """ Checks if node has right child
+        """
+        if self.right and not self.left:
+            return True
+        return False
+
+    def hasBothChildren(self):
+        if self.right and self.left:
             return True
         return False
 
@@ -207,11 +225,11 @@ class BinarySearchTree(object):
         if item == node.data:
             # Return the parent of the found node
             return parent
-        # TODO: Check if the given item is less than the node's data
+        # Check if the given item is less than the node's data
         elif item < node.data:
             # Recursively descend to the node's left child, if it exists
             return self._find_parent_node_recursive(item, node.left, node)  # Hint: Remember to update the parent parameter
-        # TODO: Check if the given item is greater than the node's data
+        # Check if the given item is greater than the node's data
         elif item > node.data:
             # Recursively descend to the node's right child, if it exists
             return self._find_parent_node_recursive(item, node.right, node)  # Hint: Remember to update the parent parameter
@@ -220,26 +238,31 @@ class BinarySearchTree(object):
         """Remove given item from this tree, if present, or raise ValueError.
         Best case running time: O(1) if item is root
         Worst case running time: O(log n) until finds node"""
-        # TODO: Use helper methods and break this algorithm down into 3 cases
+        # Use helper methods and break this algorithm down into 3 cases
         # based on how many children the node containing the given item has and
         # implement new helper methods for subtasks of the more complex cases
         
         node = self._find_node_recursive(item)
+        parent = self._find_parent_node_recursive(node.data)
 
         if node is None:
             raise ValueError('Item not in tree')
 
         # Case: Delete leaf - remove link in parent
         if node.is_leaf():
-            parent = self._find_parent_node_recursive(node.data)
             if node.data < parent.data:
                 parent.left = None
             else: 
                 parent.right = None
         # Case: Delete parent with only 1 child - change grandparent link to child leaf
-        elif node.is_branch():
-            
-        # Case: Node with 2 children - find min in right/ma in left subtree, proceed as other cases
+        if node.is_branch() and not node.hasBothChildren():
+            if node.hasLeftChild():
+                parent.left = node.left
+            parent.left = node.right
+
+        # Case: Node with 2 children - find min in right/max in left subtree, proceed as other cases
+        if node.hasBothChildren():
+            pass
 
     def items_in_order(self):
         """Return an in-order list of all items in this binary search tree."""
