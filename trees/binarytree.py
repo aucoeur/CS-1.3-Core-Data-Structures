@@ -53,12 +53,14 @@ class BinaryTreeNode(object):
 
         if self.is_leaf():
             return 0
-        elif self.left or self.right:
+        if self.left:
             left_edge = self.left.height()
+        if self.right:
             right_edge = self.right.height()
-            if left_edge > right_edge:
-                return left_edge + 1
-            return right_edge + 1
+            
+        if left_edge > right_edge:
+            return left_edge + 1
+        return right_edge + 1
 
 
 class BinarySearchTree(object):
